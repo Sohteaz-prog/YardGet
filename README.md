@@ -19,14 +19,30 @@ Le nom mêle « yards », l'argent en patois wallon-picard et tournaisien, et «
 - **Réglages** (engrenage en haut à droite) : thème auto / clair / sombre, plusieurs comptes (option), export et import d'une sauvegarde, remise à zéro. La version est affichée en bas.
 - **Installation** : sur téléphone, tant que l'appli est ouverte dans le navigateur, une carte propose de l'installer (« Plus tard » la masque 7 jours).
 
+## Fichiers
+
+Tous les fichiers sont à la racine, sans dossier : on peut les envoyer un par un sur GitHub.
+
+```
+index.html              page unique
+app.js                  tout le code de l'appli (fichier généré, ne pas modifier à la main)
+styles.css              thèmes clair et sombre, composants
+sw.js                   cache hors connexion
+manifest.webmanifest    nom, icônes, mode plein écran
+icon.svg, icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png   logo (anneau)
+README.md               ce document
+```
+
+Le code source détaillé (un fichier par écran et par rôle) est conservé dans les documents du projet Claude, dossier `claude/code/`. `app.js` est produit à partir de lui à chaque livraison.
+
 ## Mettre en ligne avec GitHub Pages
 
 1. Crée un dépôt sur GitHub (public, ou privé avec un compte qui permet Pages).
-2. Dépose tout le contenu de ce dossier à la racine du dépôt (`index.html` doit être à la racine).
+2. **Add file → Upload files** : envoie tous les fichiers du zip à la racine du dépôt, puis **Commit changes**.
 3. Dans le dépôt : **Settings → Pages → Build and deployment → Source : Deploy from a branch**, branche `main`, dossier `/ (root)`, puis **Save**.
 4. Après une ou deux minutes, l'adresse s'affiche en haut de la page Pages (du type `https://ton-pseudo.github.io/nom-du-depot/`).
 
-Aucune compilation n'est nécessaire : ce sont des fichiers statiques.
+Aucune compilation n'est nécessaire de ton côté.
 
 ## Installer sur Android
 
@@ -36,15 +52,13 @@ Aucune compilation n'est nécessaire : ce sont des fichiers statiques.
 
 ## Publier une mise à jour
 
-L'appli est mise en cache sur le téléphone pour fonctionner hors connexion. À chaque modification publiée :
+1. Envoie sur GitHub les fichiers du nouveau zip (**Add file → Upload files**) : ils remplacent les anciens du même nom.
+2. Les livraisons après la 1.00 ne contiennent que les fichiers modifiés ; les images restent celles déjà présentes, sauf changement.
+3. Le numéro de version est déjà à jour dans les fichiers livrés. Le téléphone récupère la nouvelle version à la prochaine ouverture (parfois la suivante) ; la version affichée en bas des réglages permet de le vérifier.
 
-1. Change `APP_VERSION` dans `js/version.js` (par exemple `1.00essai5`, puis `1.00` une fois la version validée).
-2. Change `CACHE` dans `sw.js` avec la même valeur, précédée de `yardget-` (par exemple `yardget-1.00essai5`).
-3. Remplace sur GitHub les fichiers modifiés. Le téléphone récupère la nouvelle version à la prochaine ouverture (parfois la suivante).
+## Si la page reste blanche ou affiche « Yardget ne s'est pas chargé »
 
-Les livraisons après la 1.00 ne contiennent que les fichiers de fonctionnement modifiés : les images (dossier `icons/`) restent celles déjà présentes sur GitHub, sauf changement.
-
-Si tu ajoutes un nouveau fichier JavaScript, ajoute-le aussi à la liste `SHELL` dans `sw.js`.
+Un fichier manque à la racine du dépôt (le plus souvent `app.js` ou `styles.css`), ou il est rangé dans un dossier. Vérifie la liste des fichiers ci-dessus, renvoie ceux qui manquent, puis recharge la page.
 
 ## Données et sauvegarde
 
@@ -55,30 +69,10 @@ Si tu ajoutes un nouveau fichier JavaScript, ajoute-le aussi à la liste `SHELL`
 
 ## Tester sur un ordinateur
 
-Les modules JavaScript ne fonctionnent pas en ouvrant `index.html` directement. Lance un petit serveur dans le dossier :
+Lance un petit serveur dans le dossier qui contient les fichiers :
 
 ```
 python3 -m http.server 8000
 ```
 
 puis ouvre `http://localhost:8000`. Dans Chrome, les outils de développement (F12) permettent de simuler un téléphone. La carte d'installation n'apparaît qu'en simulation tactile (téléphone).
-
-## Organisation du code
-
-```
-index.html              page unique
-manifest.webmanifest    nom, icônes, mode plein écran
-sw.js                   cache hors connexion
-css/styles.css          thèmes clair et sombre, composants
-icons/                  logo (anneau) aux différentes tailles
-js/app.js               navigation, rendu, événements
-js/store.js             données : chargement, sauvegarde, actions, abonnements automatiques
-js/calc.js              calculs : reste à dépenser, alertes, moyennes, suggestions, séries
-js/catalog.js           couleurs, icônes, catégories par défaut
-js/charts.js            anneau et barres en SVG
-js/components.js        éléments d'interface réutilisés
-js/sheets.js            formulaires (dépense, abonnement, revenu, catégorie, objectif…) et écran de bienvenue
-js/install.js           carte « Installe Yardget » (téléphone uniquement)
-js/version.js           numéro de version affiché dans les réglages
-js/views/               écrans : accueil, dépenses, budget, analyse, réglages
-```

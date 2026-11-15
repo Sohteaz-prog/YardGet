@@ -1,33 +1,19 @@
 // Service worker : l'appli fonctionne hors connexion.
 // Change CACHE à chaque mise à jour publiée (même valeur que APP_VERSION, préfixée « yardget- »)
 // pour que les téléphones récupèrent la nouvelle version.
-const CACHE = 'yardget-1.00essai4';
+const CACHE = 'yardget-1.00essai5';
 
 const SHELL = [
   './',
   './index.html',
+  './app.js',
+  './styles.css',
   './manifest.webmanifest',
-  './css/styles.css',
-  './js/app.js',
-  './js/store.js',
-  './js/calc.js',
-  './js/catalog.js',
-  './js/charts.js',
-  './js/components.js',
-  './js/sheets.js',
-  './js/install.js',
-  './js/util.js',
-  './js/version.js',
-  './js/views/home.js',
-  './js/views/expenses.js',
-  './js/views/budget.js',
-  './js/views/analysis.js',
-  './js/views/settings.js',
-  './icons/icon.svg',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/icon-maskable-512.png',
-  './icons/apple-touch-icon.png',
+  './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-512.png',
+  './apple-touch-icon.png',
 ];
 
 self.addEventListener('install', (event) => {
